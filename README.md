@@ -1,45 +1,101 @@
-# My Todo
+# Livraria do pacheco
 
-This project can be used as a starting point to create your own Vaadin application with Spring Boot.
-It contains all the necessary configuration and some placeholder files to get you started.
+### Caso de Uso: Gerenciamento de Livros em Livraria por categoria
 
-## Running the application
+**Objetivo:** O funcionário da livraria pode gerenciar livros e determinar sua categoria
+**Cenário Principal:**
 
-The project is a standard Maven project. To run it from the command line,
-type `mvnw` (Windows), or `./mvnw` (Mac & Linux), then open
-http://localhost:8080 in your browser.
+1. O funcionário da livraria acessa o sistema.
+2. O funcionário navega até a seção de "Livros".
+3. O funcionário pode escolher entre as seguintes opções:
+- Adicionar livro .
+- Editar informações de um livro.
+- Excluir um livro.
+- Listar todos os livros.
+- Encontrar livro por ID.
+4. Ao acessar a seção de "Categorias".
+5. O funcionário pode escolher entre as seguintes opções:
+- Adicionar categoria.
+- Editar informações de uma categoria.
+- Excluir uma categoria.
+- Listar todas as categorias.
+6. E apartir disso pode adicionar um livro e aderir a ele uma categoria.
 
-You can also import the project to your IDE of choice as you would with any
-Maven project. Read more on [how to import Vaadin projects to different IDEs](https://vaadin.com/docs/latest/guide/step-by-step/importing) (Eclipse, IntelliJ IDEA, NetBeans, and VS Code).
 
-## Deploying to Production
 
-To create a production build, call `mvnw clean package -Pproduction` (Windows),
-or `./mvnw clean package -Pproduction` (Mac & Linux).
-This will build a JAR file with all the dependencies and front-end resources,
-ready to be deployed. The file can be found in the `target` folder after the build completes.
+### Diagrama de classes
+![Diagrama de classes](src/main/resources/diagramaLivrariaPacheco.png)
 
-Once the JAR file is built, you can run it using
-`java -jar target/mytodo-1.0-SNAPSHOT.jar`
+## Informações
 
-## Project structure
+*Banco de dados* : MySQL;
+<br>
+*JDBC* : Mysql Connector 8.0.33;
+<br>
+*JAVA* : OpenJDK 20;
 
-- `MainLayout.java` in `src/main/java` contains the navigation setup (i.e., the
-  side/top bar and the main menu). This setup uses
-  [App Layout](https://vaadin.com/docs/components/app-layout).
-- `views` package in `src/main/java` contains the server-side Java views of your application.
-- `views` folder in `frontend/` contains the client-side JavaScript views of your application.
-- `themes` folder in `frontend/` contains the custom CSS styles.
+## Query
+```sql
 
-## Useful links
 
-- Read the documentation at [vaadin.com/docs](https://vaadin.com/docs).
-- Follow the tutorial at [vaadin.com/docs/latest/tutorial/overview](https://vaadin.com/docs/latest/tutorial/overview).
-- Create new projects at [start.vaadin.com](https://start.vaadin.com/).
-- Search UI components and their usage examples at [vaadin.com/docs/latest/components](https://vaadin.com/docs/latest/components).
-- View use case applications that demonstrate Vaadin capabilities at [vaadin.com/examples-and-demos](https://vaadin.com/examples-and-demos).
-- Build any UI without custom CSS by discovering Vaadin's set of [CSS utility classes](https://vaadin.com/docs/styling/lumo/utility-classes). 
-- Find a collection of solutions to common use cases at [cookbook.vaadin.com](https://cookbook.vaadin.com/).
-- Find add-ons at [vaadin.com/directory](https://vaadin.com/directory).
-- Ask questions on [Stack Overflow](https://stackoverflow.com/questions/tagged/vaadin) or join our [Discord channel](https://discord.gg/MYFq5RTbBn).
-- Report issues, create pull requests in [GitHub](https://github.com/vaadin).
+CREATE DATABASE IF NOT EXISTS livraria;
+USE livraria;
+
+-- Cria tabela
+
+-- Criação da tabela livro com o campo categoria
+CREATE TABLE IF NOT EXISTS livro (
+                                   id INT AUTO_INCREMENT PRIMARY KEY,
+                                   titulo VARCHAR(255) NOT NULL,
+  autor VARCHAR(255) NOT NULL,
+  descricao TEXT,
+  categoria VARCHAR(50) NOT NULL
+  );
+
+-- Inserir registros fictícios na tabela livro com categorias
+INSERT INTO livro (titulo, autor, descricao, categoria) VALUES
+                                                          ('A Guerra dos Tronos', 'George R. R. Martin', 'O primeiro livro da série "As Crônicas de Gelo e Fogo", que inspirou a série de TV "Game of Thrones."', 'Fantasia'),
+                                                          ('A Menina que Roubava Livros', 'Markus Zusak', 'Um livro que narra a história de Liesel Meminger, uma jovem que roubava livros durante a Segunda Guerra Mundial.', 'Drama'),
+                                                          ('O Código Da Vinci', 'Dan Brown', 'Um thriller que mistura arte, religião e história, envolvendo um professor de simbologia em uma trama de conspirações.', 'Ação'),
+                                                          ('O Hobbit', 'J.R.R. Tolkien', 'Uma aventura épica que precede "O Senhor dos Anéis" e segue Bilbo Bolseiro em sua jornada pela Terra-média.', 'Aventura'),
+                                                          ('O Iluminado', 'Stephen King', 'Um clássico do horror que conta a história de Jack Torrance, um escritor que aceita um emprego de zelador em um hotel assombrado.', 'Terror'),
+                                                          ('Crepúsculo', 'Stephenie Meyer', 'O primeiro livro da série "Crepúsculo", que segue a história de amor entre Bella Swan e Edward Cullen, um vampiro.', 'Romance'),
+                                                          ('As Vantagens de Ser Invisível', 'Stephen Chbosky', 'Um romance que aborda temas como amizade, amor e a jornada de um adolescente introvertido.', 'Romance'),
+                                                          ('A Revolução dos Anjos', 'José Eduardo Agualusa', 'Uma obra que explora as perspectivas de anjos, demônios e seres humanos na cidade de Luanda, Angola.', 'Drama'),
+                                                          ('A Maldição do Tigre', 'Colleen Houck', 'O primeiro livro da série "A Saga do Tigre", que combina romance e aventura com mitologia hindu.', 'Fantasia'),
+                                                          ('O Nome do Vento', 'Patrick Rothfuss', 'O início da trilogia "Crônica do Matador do Rei", que segue a vida de Kvothe, um jovem músico e mago.', 'Fantasia');
+
+
+select * from livro
+
+                use livraria;
+-- Criação da tabela categoria
+CREATE TABLE IF NOT EXISTS categoria (
+                                       id INT AUTO_INCREMENT PRIMARY KEY,
+                                       categoria VARCHAR(50) NOT NULL
+  );
+
+-- Inserir categorias iniciais
+INSERT INTO categoria (categoria) VALUES
+                                    ('Ação'),
+                                    ('Aventura'),
+                                    ('Comédia'),
+                                    ('Drama'),
+                                    ('Fantasia'),
+                                    ('Ficção científica'),
+                                    ('Romance'),
+                                    ('Terror');
+
+
+
+
+
+```
+
+### O que eu utilizei?
+
+Usei algumas partes dos conteudos que o professor passou, principalmente o JDBC para criar minha fabrica de conexções e 
+poder manipular o banco de dados.
+E o restanto foi muita leitura e tentar como que funciona o Vaadin, nesse caso utilizei a ultima versão disponivel do Vaadin Versão 24.
+Demorei um pouco para entender(Ou pelo menos oque eu achei que entendi, mas no fim consegui executar o que eu queria usando o CRUD dele.)
+<br>
